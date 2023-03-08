@@ -1,0 +1,137 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2708
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww33240\viewh24460\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Sub VBA_homework()\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 	\'91screenshots of homework are below the code\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0     'set variables\
+    output_row = 2\
+    total_stock_vol = 0\
+    j = 0\
+    \
+    'set last row calculations\
+    last_row = Cells(Rows.Count, 1).End(xlUp).Row\
+    lr_go = Cells(Rows.Count, 11).End(xlUp).Row\
+    lr_vol = Cells(Rows.Count, 12).End(xlUp).Row\
+    \
+'start loop for worksheets\
+For Each ws In Worksheets\
+\
+    'set columns for output\
+    ws.Cells(1, 9).Value = "Ticker"\
+    ws.Cells(1, 16).Value = "Ticker"\
+    ws.Cells(1, 10).Value = "Yearly Change"\
+    ws.Cells(1, 11).Value = "Percent Change"\
+    ws.Cells(1, 12).Value = "Total Stock Volume"\
+    ws.Cells(2, 15).Value = "Greatest % Increase"\
+    ws.Cells(3, 15).Value = "Greatest % Decrease"\
+    ws.Cells(4, 15).Value = "Greatest Total Volume"\
+    ws.Cells(1, 17).Value = "Value"\
+\
+'start loop to pull data\
+\
+For i = 2 To last_row\
+\
+    'set if statement\
+    If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then\
+    \
+        'pull Ticke\
+        ws.Cells(output_row, 9).Value = ws.Cells(i, 1).Value\
+        \
+       'pull Yearly change\
+        ws.Cells(output_row, 10).Value = ws.Cells(i, 6).Value - ws.Cells(i - j, 3).Value\
+        \
+        'pull Percent change\
+        ws.Cells(output_row, 11).Value = (ws.Cells(i, 6).Value - ws.Cells(i - j, 3).Value) / ws.Cells(i - j, 3).Value\
+        j = 0 'reset counter\
+        \
+        'add last value for total stock vol, pull for output cell, reset value\
+        total_stock_vol = total_stock_vol + ws.Cells(i, 7).Value\
+        ws.Cells(output_row, 12).Value = total_stock_vol\
+        total_stock_vol = 0\
+        \
+        'set output to move with data\
+         output_row = output_row + 1\
+         \
+    Else\
+        'totalling total stock value\
+        total_stock_vol = total_stock_vol + ws.Cells(i, 7).Value\
+        'building counter to pull the first line of code for calculations above\
+        j = j + 1\
+    \
+    'end if statement\
+    End If\
+    \
+'end loop to pull data\
+Next i\
+        'reset variables for new worksheet\
+        output_row = 2\
+        j = 0\
+        total_stock_vol = 0\
+        \
+        'set last row finder\
+    lr_go = Cells(Rows.Count, 11).End(xlUp).Row\
+\
+    'start loop to pull greatest values\
+    For g_o = 2 To lr_go\
+\
+        'attempt at pulling greatest values. It isn't working right\
+        If ws.Cells(g_o + 1, 11).Value > ws.Cells(g_o, 11).Value Then\
+            \
+            ws.Cells(3, 16).Value = ws.Cells(g_o + 1, 9).Value\
+            ws.Cells(3, 17).Value = ws.Cells(g_o + 1, 11).Value\
+            \
+        Else\
+            'attempt at pulling the smallest. I'm missing something but don't know what\
+            ws.Cells(2, 16).Value = ws.Cells(g_o, 9).Value\
+            ws.Cells(2, 17).Value = ws.Cells(g_o, 11).Value\
+        'end if statement\
+        End If\
+    'end loop for greatest values\
+    Next g_o\
+    \
+    \
+    'set last row finder for greatest total volume\
+    lr_vol = Cells(Rows.Count, 12).End(xlUp).Row\
+    \
+    For vol = 2 To lr_vol\
+        'attempt at finding greatest values, again, not working.\
+        If ws.Cells(vol + 1, 12).Value > ws.Cells(vol, 12).Value Then\
+            \
+            ws.Cells(4, 16).Value = ws.Cells(vol + 1, 9).Value\
+            ws.Cells(4, 17).Value = ws.Cells(vol + 1, 12).Value\
+            \
+        'end if statement for greatest total volume\
+        End If\
+        \
+    'end loop for greatest total volume\
+    Next vol\
+    \
+'end loop in worksheets\
+Next ws\
+End Sub\
+\
+2018 sheet:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Pasted Graphic.tiff \width21620 \height7100 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\
+\
+2019 sheet:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Pasted Graphic.tiff \width21620 \height7100 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\
+2020 sheet:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 {{\NeXTGraphic Pasted Graphic.tiff \width21620 \height7100 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+}
